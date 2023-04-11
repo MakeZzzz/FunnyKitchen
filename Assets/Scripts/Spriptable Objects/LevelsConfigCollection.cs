@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "levels", menuName = "Levels")]
+    [CreateAssetMenu(fileName = "Levels", menuName = "Levels")]
     public class LevelsConfigCollection : ScriptableObject
     {
         [SerializeField] private ConfigLevelsModel[] _configLevelsModel;

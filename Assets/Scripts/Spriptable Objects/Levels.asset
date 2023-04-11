@@ -11,6 +11,17 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8081d7a5a198be4985532d46e82cb7c, type: 3}
   m_Name: Levels
-  m_EditorClassIdentifier: Assembly-CSharp:ScriptableObjects:LevelsConfig
+  m_EditorClassIdentifier: 
   _configLevelsModel:
-  - {fileID: 0}
+  - _levelCount: 1
+    _finalPriceLevel: 90
+    _minCustomerArrivalTime: 15
+    _maxCustomerArrivalTime: 20
+  - _levelCount: 2
+    _finalPriceLevel: 300
+    _minCustomerArrivalTime: 10
+    _maxCustomerArrivalTime: 18
+  - _levelCount: 3
+    _finalPriceLevel: 500
+    _minCustomerArrivalTime: 7
+    _maxCustomerArrivalTime: 15
