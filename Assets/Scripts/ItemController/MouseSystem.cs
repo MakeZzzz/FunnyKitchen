@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MouseSystem : MonoBehaviour
 {
+   [SerializeField] private GameObject _parent;
    [SerializeField] private GameObject _item;
    private Vector3 _pointScreen;
    private Vector3 _offset;
@@ -12,7 +13,7 @@ public class MouseSystem : MonoBehaviour
    private void OnMouseDown()
    {
       _pointScreen = Camera.main.WorldToScreenPoint(transform.position);
-      var newItem = Instantiate(_item);
+      var newItem = Instantiate(_item,_parent.transform);
       _offset = newItem.transform.position - Camera.main.WorldToScreenPoint(new Vector3(Input.mousePosition.x, 
          Input.mousePosition.y, _pointScreen.z));
    }
