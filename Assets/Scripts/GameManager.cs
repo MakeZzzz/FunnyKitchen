@@ -8,8 +8,9 @@ using UnityEditor;
 public class GameManager : MonoBehaviour
 {
    
+    
     // [SerializeField] private KitchenZoneInitializer _configSystem;
-    //
+    
     // // private SaveSystem _json;
     //
     // private void Awake()
