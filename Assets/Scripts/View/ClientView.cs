@@ -6,7 +6,8 @@ using Random = UnityEngine.Random;
 
 public class ClientView : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _custumersPrefabs;
+    private GameObject _customer;
+    //[SerializeField] private List<GameObject> _custumersPrefabs;
     [SerializeField] private List<GameObject> _orders;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private List<Transform> _pointsForOrder;
@@ -22,10 +23,13 @@ public class ClientView : MonoBehaviour
 
     private void CreateOrder()
     {
-        Canvas childCanvas = GetComponentInChildren<Canvas>();
-        childCanvas.enabled = true;
-        var order = Instantiate(_orders[Random.Range(0, _orders.Count)] );
-       
-       order.transform.SetParent(_pointsForOrder[0], false);
+        
+        Debug.Log("тут будет заказ");
+        Debug.Log(_customer.name);
+    }
+    public void SetPlayer(GameObject player)
+    {
+        _customer = player;
+        Debug.Log(_customer.name);
     }
 }

@@ -7,12 +7,8 @@ using Random = UnityEngine.Random;
 
 public class ClientSystem : MonoBehaviour
 {
-  
     public Action ClientСame;
-    
-    public delegate void GameObjectEventHandler(GameObject gameObject);
-    public event GameObjectEventHandler OnGameObjectCreated;
-    
+    public event Action<GameObject> OnPlayerCreated;
     [SerializeField] private List<Transform> _startPositions;
     [SerializeField] private List<Transform> _endPositions;
     [SerializeField] private List<GameObject> _custumersPrefabs;
@@ -21,7 +17,6 @@ public class ClientSystem : MonoBehaviour
     private Transform _endPosition;
     private GameObject _custumer;
     
-
     public float speed = 1.0f;
     private float _startTime;
     private float _journeyLength;
@@ -32,10 +27,6 @@ public class ClientSystem : MonoBehaviour
         SetEndPosition();
         _startTime = Time.time;
         _journeyLength = Vector3.Distance(_startPosition.position, _endPosition.position);
-    }
-
-    private void Start()
-    {
         CreateNewCustomer();
     }
 
@@ -49,10 +40,10 @@ public class ClientSystem : MonoBehaviour
         if (_custumer == null)
         {
             CreateNewCustomer();
+            
         }
     }
-
-
+    
     private void SetStartPosition()
     {
         var index = Random.Range(0, _startPositions.Count);
@@ -64,17 +55,8 @@ public class ClientSystem : MonoBehaviour
         var index = Random.Range(0, _custumersPrefabs.Count);
         _custumer = Instantiate(_custumersPrefabs[index], _startPosition);
         _custumer.transform.SetParent(_canvas.transform, false);
-
-        Canvas childCanvas = _custumer.GetComponentInChildren<Canvas>();
-        childCanvas.enabled = false;
-        
     }
-
-    public void Initialize(GameObject custumer)
-    {
-        _custumer = custumer;
-    }
-
+    
     private void SetEndPosition()
     {
         var index = Random.Range(0, _endPositions.Count);
@@ -91,7 +73,10 @@ public class ClientSystem : MonoBehaviour
         if (_custumer.transform.position == _endPosition.position)
         {
             ClientСame.Invoke();
-            OnGameObjectCreated(gameObject);
+            OnPlayerCreated.Invoke(_custumer);
+            Debug.Log(_custumer.name);
+            
         }
     }
 }
+
