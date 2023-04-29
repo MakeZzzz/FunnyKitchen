@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 public class ClientSystem : MonoBehaviour
 {
     public Action ClientСame;
-    public event Action<GameObject> OnPlayerCreated;
     [SerializeField] private List<Transform> _startPositions;
     [SerializeField] private List<Transform> _endPositions;
     [SerializeField] private List<GameObject> _custumersPrefabs;
@@ -16,7 +15,7 @@ public class ClientSystem : MonoBehaviour
     private Transform _startPosition;
     private Transform _endPosition;
     private GameObject _custumer;
-    
+
     public float speed = 1.0f;
     private float _startTime;
     private float _journeyLength;
@@ -32,18 +31,17 @@ public class ClientSystem : MonoBehaviour
 
     private void Update()
     {
-        if (_custumer != null)
-        {
-            MovingCustomer();
-        }
+        MovingCustomer();
+        //if (_custumer != null)
+        //{
+        //}
 
-        if (_custumer == null)
-        {
-            CreateNewCustomer();
-            
-        }
+        //if (_custumer == null)
+        //{
+        //    CreateNewCustomer();
+        //}
     }
-    
+
     private void SetStartPosition()
     {
         var index = Random.Range(0, _startPositions.Count);
@@ -55,8 +53,10 @@ public class ClientSystem : MonoBehaviour
         var index = Random.Range(0, _custumersPrefabs.Count);
         _custumer = Instantiate(_custumersPrefabs[index], _startPosition);
         _custumer.transform.SetParent(_canvas.transform, false);
-    }
-    
+        var canvas = _custumer.GetComponentInChildren<Canvas>();
+        canvas.enabled = false;
+        }
+
     private void SetEndPosition()
     {
         var index = Random.Range(0, _endPositions.Count);
@@ -73,10 +73,11 @@ public class ClientSystem : MonoBehaviour
         if (_custumer.transform.position == _endPosition.position)
         {
             ClientСame.Invoke();
-            OnPlayerCreated.Invoke(_custumer);
-            Debug.Log(_custumer.name);
-            
         }
     }
-}
 
+    public GameObject ReturnCustomer()
+    {
+        return _custumer;
+    }
+}

@@ -9,7 +9,7 @@ public class ClientController : MonoBehaviour
    
     public Action OnChangeOrder;
     private GameObject _createdObject;
-    private readonly ClientSystem model;
+    [SerializeField]public ClientSystem model;
     private readonly ClientView view;
 
     private void Awake()
@@ -20,17 +20,10 @@ public class ClientController : MonoBehaviour
     {
         OnChangeOrder.Invoke();
     }
-    public ClientController(ClientSystem model, ClientView view)
-    {
-        this.model = model;
-        this.view = view;
-        // Подписываемся на событие создания игрока в модели
-        model.OnPlayerCreated += OnPlayerCreated;
-    }
 
-    private void OnPlayerCreated(GameObject player)
+    public GameObject ReturnPlayer()
     {
-        // Передаем игрока в представление
-        view.SetPlayer(player);
+        var customer = model.ReturnCustomer();
+        return customer;
     }
 }
