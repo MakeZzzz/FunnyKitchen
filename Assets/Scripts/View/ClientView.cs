@@ -16,7 +16,6 @@ public class ClientView : MonoBehaviour
     [SerializeField] private Transform _pointsForOrder;
     public Action Come;
     [SerializeField] private ClientController _client;
-    //public ClientController OnChangeOrder;
 
     private void Awake()
     {
@@ -36,7 +35,6 @@ public class ClientView : MonoBehaviour
         order.transform.SetParent(_customer.transform);
         Debug.Log("Order: "+ _orders[0]);
         Debug.Log(_customer.name);
-        
       }
     public void SetPlayer(GameObject player)
     {
