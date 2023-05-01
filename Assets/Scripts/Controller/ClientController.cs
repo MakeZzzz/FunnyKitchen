@@ -5,17 +5,14 @@ using UnityEngine;
 
 public class ClientController : MonoBehaviour
 {
-    [SerializeField] private ClientSystem _customer;
-   
     public Action OnChangeOrder;
-    private GameObject _createdObject;
-    [SerializeField]public ClientSystem model;
-    private readonly ClientView view;
+    [SerializeField] private ClientSystem _customer;
 
     private void Awake()
     {
-        _customer.ClientСame += CreateOrderUI;
+        _customer.OnClientArrivedAtPoint += CreateOrderUI;
     }
+
     public void CreateOrderUI()
     {
         OnChangeOrder.Invoke();
@@ -23,7 +20,7 @@ public class ClientController : MonoBehaviour
 
     public GameObject ReturnPlayer()
     {
-        var customer = model.ReturnCustomer();
+        var customer = _customer.ReturnCustomer();
         return customer;
     }
 }
