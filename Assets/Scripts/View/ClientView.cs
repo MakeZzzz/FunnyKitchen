@@ -9,11 +9,10 @@ using Random = UnityEngine.Random;
 
 public class ClientView : MonoBehaviour
 {
-    private Action OnCreateNewOrder;
+    
     public Action OnOrderNotReady;
     public Action OnTimeIsOver;
-
-    //[SerializeField] private List<GameObject> _orders;
+    
     [SerializeField] private Slider _slider;
     [SerializeField] private ClientController _client;
     [SerializeField] private TimeController _timeController;
@@ -21,29 +20,51 @@ public class ClientView : MonoBehaviour
     [SerializeField] private Sprite[] _order;
     private GameObject _customer;
     private int _countForTexture = 0;
+    private Canvas _canvas;
+    
+    private Action OnCreateNewOrder;
 
     private void Awake()
     {
-        OnTimeIsOver += SetNewTexture;
-        OnOrderNotReady += SetNewTexture;
-        OnCreateNewOrder += CreateOrder;
+        OnTimeIsOver += ChangeTextureCustomer;
+        OnOrderNotReady += ChangeTextureCustomer;
+        OnCreateNewOrder += InitializeCustomer;
         _client.OnChangeOrder += CreateOrder;
+    }
+
+    private void InitializeCustomer()
+    {
+        _customer = _client.ReturnPlayer();
+    }
+    
+    private void InitializeCanvas()
+    {
+        _canvas = _customer.GetComponentInChildren<Canvas>();
+        _canvas.enabled = true;
+    }
+    private void InitializeSlider()
+    {
+        var slider = Instantiate(_slider, _canvas.transform);
+        Initialize(slider);
     }
 
     private void CreateOrder()
     {
-        _customer = _client.ReturnPlayer();
-
-        var canvas = _customer.GetComponentInChildren<Canvas>();
-        canvas.enabled = true;
-
-        var slider = Instantiate(_slider, canvas.transform);
-        Initialize(slider);
+        InitializeCustomer();
+        InitializeCanvas();
+        InitializeSlider();
 
         _timeController.OnSliderReady.Invoke();
         
         var grid = _customer.GetComponentInChildren<GridLayoutGroup>();
-        
+
+        var countOfOrders = ReturnRandomIndex() + 1;
+        for (int i = 0; i < countOfOrders; i++)
+        {
+            GameObject newElement = new GameObject();
+            newElement.AddComponent<Image>().sprite = _order[ReturnRandomIndex()];
+            var child = Instantiate(newElement, grid.transform);
+        }
     }
 
     private void Initialize(Slider slider)
@@ -56,12 +77,16 @@ public class ClientView : MonoBehaviour
         return _slider;
     }
 
-    private void SetNewTexture()
+    private void ChangeTextureCustomer()
     {
-        _customer.GetComponent<RawImage>().texture = _texturesCustomer[_countForTexture];
+        _customer.GetComponent<RawImage>().texture = _customer.GetComponent<PrefabsTextures>().Textures[_countForTexture];
         if (_countForTexture != _texturesCustomer.Length - 1)
         {
             _countForTexture++;
         }
+    }
+    private int ReturnRandomIndex()
+    {
+        return Random.Range(0, _order.Length);
     }
 }
