@@ -31,7 +31,10 @@ public class ClientSystem : MonoBehaviour
 
     private void Update()
     {
-        MovingCustomer();
+        if (_custumer.transform.position != _endPosition.position)
+        {
+            MovingCustomer();
+        }
     }
 
     private void SetStartPosition()
