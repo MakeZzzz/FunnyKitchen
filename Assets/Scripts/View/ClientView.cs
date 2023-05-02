@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -9,14 +10,22 @@ using Random = UnityEngine.Random;
 public class ClientView : MonoBehaviour
 {
     private Action OnCreateNewOrder;
-    
-    private GameObject _customer;
-    [SerializeField] private List<GameObject> _orders;
+    public Action OnOrderNotReady;
+    public Action OnTimeIsOver;
+
+    //[SerializeField] private List<GameObject> _orders;
     [SerializeField] private Slider _slider;
     [SerializeField] private ClientController _client;
+    [SerializeField] private TimeController _timeController;
+    [SerializeField] private Texture[] _texturesCustomer;
+    [SerializeField] private Sprite[] _order;
+    private GameObject _customer;
+    private int _countForTexture = 0;
 
     private void Awake()
     {
+        OnTimeIsOver += SetNewTexture;
+        OnOrderNotReady += SetNewTexture;
         OnCreateNewOrder += CreateOrder;
         _client.OnChangeOrder += CreateOrder;
     }
@@ -25,23 +34,34 @@ public class ClientView : MonoBehaviour
     {
         _customer = _client.ReturnPlayer();
 
-        ReturnSlider();
-        var order = Instantiate(_orders[0]);
-        order.transform.SetParent(_customer.transform);
-        Debug.Log("Order: "+ _orders[0]);
-        Debug.Log(_customer.name);
-      }
-    //public void SetPlayer(GameObject player)
-    //{
-    //    _customer = player;
-    //}
-
-    public Slider ReturnSlider()
-    {
-        var canvas =_customer.GetComponentInChildren<Canvas>();
+        var canvas = _customer.GetComponentInChildren<Canvas>();
         canvas.enabled = true;
 
         var slider = Instantiate(_slider, canvas.transform);
-        return slider;
+        Initialize(slider);
+
+        _timeController.OnSliderReady.Invoke();
+        
+        var grid = _customer.GetComponentInChildren<GridLayoutGroup>();
+        
+    }
+
+    private void Initialize(Slider slider)
+    {
+        _slider = slider;
+    }
+
+    public Slider ReturnSlider()
+    {
+        return _slider;
+    }
+
+    private void SetNewTexture()
+    {
+        _customer.GetComponent<RawImage>().texture = _texturesCustomer[_countForTexture];
+        if (_countForTexture != _texturesCustomer.Length - 1)
+        {
+            _countForTexture++;
+        }
     }
 }
