@@ -2,39 +2,42 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeController : MonoBehaviour
+namespace Controller
 {
-    public Action OnSliderReady;
-    
-    [SerializeField] private ClientView _clientView;
-    [SerializeField] private float _value = 1f;
-    
-    private Slider _slider;
-    private GameObject _client;
-    
-    private void Awake()
+    public class TimeController : MonoBehaviour
     {
-        OnSliderReady += GetSlider;
-    }
-
-    private void GetSlider()
-    {
-        _slider = _clientView.ReturnSlider();
-        InvokeRepeating("CountDown", 1f, 1f);
-    }
-
-    private void CountDown()
-    {
-        _slider.value -= 0.1f;
-
-       if (Math.Round(_slider.value, 1) == _value / 2)
+        public Action OnSliderReady;
+    
+        [SerializeField] private ClientView _clientView;
+        [SerializeField] private float _value = 1f;
+    
+        private Slider _slider;
+        private GameObject _client;
+    
+        private void Awake()
         {
-            _clientView.OnOrderNotReady.Invoke();
+            OnSliderReady += GetSlider;
         }
-        
-        if (Math.Round(_slider.value, 1) ==0)
+
+        private void GetSlider()
         {
-            _clientView.OnTimeIsOver.Invoke();
+            _slider = _clientView.ReturnSlider();
+            InvokeRepeating("CountDown", 1f, 1f);
+        }
+
+        private void CountDown()
+        {
+            _slider.value -= 1f;
+
+            if (Math.Round(_slider.value, 1) == _value / 2)
+            {
+                _clientView.OnOrderNotReady.Invoke();
+            }
+        
+            if (Math.Round(_slider.value, 1) ==0)
+            {
+                _clientView.OnTimeIsOver.Invoke();
+            }
         }
     }
 }

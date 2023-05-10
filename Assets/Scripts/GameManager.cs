@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using Systems;
 using UnityEngine;
-using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
