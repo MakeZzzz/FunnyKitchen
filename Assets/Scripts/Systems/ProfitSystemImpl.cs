@@ -1,3 +1,0 @@
-﻿class ProfitSystemImpl : ProfitSystem
-{
-}
