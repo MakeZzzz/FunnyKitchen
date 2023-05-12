@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Model;
 using ScriptableObjects;
+using Spriptable_Objects;
 using UnityEngine;
 
 public class KitchenZoneInitializer : MonoBehaviour
