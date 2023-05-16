@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Spriptable_Objects;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Controller

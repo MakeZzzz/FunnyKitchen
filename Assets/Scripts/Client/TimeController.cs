@@ -2,18 +2,18 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Controller
+namespace Client
 {
     public class TimeController : MonoBehaviour
     {
         public Action OnSliderReady;
-    
+
         [SerializeField] private ClientView _clientView;
         [SerializeField] private float _value = 1f;
-    
+        [SerializeField] private MovementClientController _client;
+
         private Slider _slider;
-        private GameObject _client;
-    
+
         private void Awake()
         {
             OnSliderReady += GetSlider;
@@ -29,14 +29,18 @@ namespace Controller
         {
             _slider.value -= 1f;
 
-            if (Math.Round(_slider.value, 1) == _value / 2)
+           // Debug.Log(_slider.value);
+
+            if (_slider.value == 10)
             {
                 _clientView.OnOrderNotReady.Invoke();
             }
-        
-            if (Math.Round(_slider.value, 1) ==0)
+
+            if (Math.Round(_slider.value, 1) == 0)
             {
+                //Debug.Log(_slider.value);
                 _clientView.OnTimeIsOver.Invoke();
+                _client.OnOrderNotReady.Invoke();
             }
         }
     }
