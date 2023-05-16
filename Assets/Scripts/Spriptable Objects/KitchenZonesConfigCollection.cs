@@ -1,7 +1,8 @@
-using Configs;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Spriptable_Objects
+namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Kitchen", menuName = "Kitchen")]
     public class KitchenZonesConfigCollection : ScriptableObject
