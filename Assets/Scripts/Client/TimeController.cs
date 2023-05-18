@@ -27,7 +27,7 @@ namespace Client
 
         private void CountDown()
         {
-            _slider.value -= 1f;
+            _slider.value -= 5f;
 
            // Debug.Log(_slider.value);
 

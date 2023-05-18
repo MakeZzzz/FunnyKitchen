@@ -79,8 +79,6 @@ namespace Client
                 
                 _orders.Remove(_orders[index]);
             }
-
-            
         }
 
         private void Initialize(Slider slider)

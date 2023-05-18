@@ -24,6 +24,7 @@ namespace Client
         private float _startTime;
         private float _distance;
         private bool _didCustomerPlaceOrder;
+        private bool _isDirectionChanged = false;
 
         private void Awake()
         {
@@ -51,13 +52,13 @@ namespace Client
             if (_customer.transform.position == _endPosition.position && _isOrderNotReady)
             {
                 ChangeDirection();
+                
             }
-
-            //if (_customer.transform.position == _startPosition.position &&  _didCustomerPlaceOrder == true)
-            //{
-            //    OnClientGoAway.Invoke();
-            //}
-
+           //if (_customer.transform.position == _startPosition.position && _isDirectionChanged == true)
+           //{
+           //    
+           //}
+            
         }
 
         private void ChangeDirection()
@@ -71,8 +72,8 @@ namespace Client
             {
                 _isOrderNotReady = false;
             }
-
-
+            
+            _isDirectionChanged = true;
         }
 
         private void SetStartPosition()
@@ -94,8 +95,8 @@ namespace Client
             var duration = distance / _distance;
 
             _customer.transform.position = Vector3.Lerp(_startPosition.position, _endPosition.position, duration);
-
-
+            
+            
         }
 
         public GameObject ReturnCustomer()
@@ -120,5 +121,11 @@ namespace Client
         {
             _isOrderNotReady = true;
         }
+
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    Debug.Log("gfhjjjjjjjjjbjkm");
+        //    OnClientGoAway.Invoke();
+        //}
     }
 }
